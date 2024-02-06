@@ -20,10 +20,11 @@ jobs:
       uses: actions/setup-java@v3
       with:
         java-version: 11      
-        distribution: 'temurin'
+        distribution: 'temurin'    
 
-    - name: Build Maven Project
+    - name: Build and test Maven Project
       run: | 
+        mvn clean test
         mvn -B package --file pom.xml
         mkdir staging && cp target/*.jar staging
     
