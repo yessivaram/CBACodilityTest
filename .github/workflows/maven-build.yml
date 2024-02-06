@@ -20,17 +20,21 @@ jobs:
       uses: actions/setup-java@v3
       with:
         java-version: 11      
-        distribution: 'temurin'    
+        distribution: 'temurin'
 
-    - name: Build and test Maven Project
+    - name: Build Maven Project
       run: | 
-        mvn clean test
-        mvn -B package --file pom.xml
-        mkdir staging && cp target/*.jar staging
+        mvn -B package --file pom.xml  
+
+        # Set the path of the HTML report folder
+        REPORT_FOLDER="./target"
+
+        # Create a staging directory and copy the entire report folder
+        mkdir -p staging
+        cp -r $REPORT_FOLDER staging
     
-    - name: Persist workflow data as artifacts
+    - name: Archive HTML report
       uses: actions/upload-artifact@v2
       with:
-        name: github-actions-artifact
+        name: target
         path: staging
-    
